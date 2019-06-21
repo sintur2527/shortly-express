@@ -35,6 +35,7 @@ class Users extends Model {
    */
   create({ username, password }) {
     let salt = utils.createRandom32String();
+    console.log(username);
 
     let newUser = {
       username,
