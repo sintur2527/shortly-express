@@ -15,6 +15,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
+// app.use()
+
 app.get('/', (req, res) => {
   //res.render('index');
 });
@@ -98,8 +100,6 @@ app.post('/login', (req, res) => {
     .error(error => {
       res.redirect('/login');
     });
-
-  // models.Users.compare(req.body.password);
 });
 // POST /signup
 app.post('/signup', (req, res) => {

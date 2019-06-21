@@ -1,7 +1,9 @@
 const models = require('../models');
 const Promise = require('bluebird');
 
-module.exports.createSession = (req, res, next) => {};
+module.exports.createSession = (req, res, next) => {
+  let cookie = req.get('Cookie') || '';
+};
 
 /************************************************************/
 // Add additional authentication middleware functions below
