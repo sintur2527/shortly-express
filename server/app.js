@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/', (req, res) => {
-  res.render('index');
+  //res.render('index');
 });
 
 app.get('/create', (req, res) => {
@@ -81,16 +81,36 @@ app.get('/signup', (req, res) => {
   res.render('signup');
 });
 // POST /login
-
-// POST /signup
-app.post('/signup', (req, res) => {
-  console.log(req.body);
-  models.Users.create({ username: req.body.username, password: req.body.password })
-    .then(() => {
-      res.status(201).send();
+app.post('/login', (req, res) => {
+  let options = { username: req.body.username };
+  models.Users.get(options)
+    .then(results => {
+      if (results) {
+        if (models.Users.compare(req.body.password, results.password, results.salt)) {
+          res.redirect('/');
+        } else {
+          res.redirect('/login');
+        }
+      } else {
+        res.redirect('/login');
+      }
     })
     .error(error => {
-      res.status(500).send(error);
+      res.redirect('/login');
+    });
+
+  // models.Users.compare(req.body.password);
+});
+// POST /signup
+app.post('/signup', (req, res) => {
+  models.Users.create({ username: req.body.username, password: req.body.password })
+    .then(results => {
+      if (results) {
+        res.redirect('/');
+      }
+    })
+    .error(error => {
+      res.redirect('/signup');
     });
 });
 

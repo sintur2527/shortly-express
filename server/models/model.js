@@ -6,11 +6,15 @@ const executeQuery = (query, values) => {
 };
 
 const parseData = options => {
-  return _.reduce(options, (parsed, value, key) => {
-    parsed.string.push(`${key} = ?`);
-    parsed.values.push(value);
-    return parsed;
-  }, { string: [], values: [] });
+  return _.reduce(
+    options,
+    (parsed, value, key) => {
+      parsed.string.push(`${key} = ?`);
+      parsed.values.push(value);
+      return parsed;
+    },
+    { string: [], values: [] }
+  );
 };
 
 /**

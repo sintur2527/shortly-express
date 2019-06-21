@@ -1,5 +1,6 @@
 const utils = require('../lib/hashUtils');
 const Model = require('./model');
+const db = require('../db');
 
 /**
  * Users is a class with methods to interact with the users table, which
@@ -23,6 +24,12 @@ class Users extends Model {
     return utils.compareHash(attempted, password, salt);
   }
 
+  // getSalt(password) {
+  //   return db.queryAsync(`SELECT salt FROM users WHERE password = ?`, [password]).error(error => {
+  //     console.error(error);
+  //   });
+  // }
+
   /**
    * Creates a new user record with the given username and password.
    * This method creates a salt and hashes the password before storing
@@ -35,7 +42,6 @@ class Users extends Model {
    */
   create({ username, password }) {
     let salt = utils.createRandom32String();
-    console.log(username);
 
     let newUser = {
       username,
