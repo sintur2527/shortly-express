@@ -19,7 +19,7 @@ module.exports.createSession = (req, res, next) => {
         next();
       });
   } else {
-    req.session = {};
+    console.log('req.session :', req.session);
     models.Sessions.get({ hash: req.cookies.shortlyid })
       .then(result => {
         //console.log(result.user);

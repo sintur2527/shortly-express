@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
-app.use(cookieParser);
+// app.use(cookieParser);
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -89,7 +89,13 @@ app.post('/login', (req, res) => {
   models.Users.get(options)
     .then(results => {
       if (results) {
-        if (models.Users.compare(req.body.password, results.password, results.salt)) {
+        if (
+          models.Users.compare(
+            req.body.password,
+            results.password,
+            results.salt
+          )
+        ) {
           res.redirect('/');
         } else {
           res.redirect('/login');
@@ -104,7 +110,10 @@ app.post('/login', (req, res) => {
 });
 // POST /signup
 app.post('/signup', (req, res) => {
-  models.Users.create({ username: req.body.username, password: req.body.password })
+  models.Users.create({
+    username: req.body.username,
+    password: req.body.password
+  })
     .then(results => {
       if (results) {
         res.redirect('/');
