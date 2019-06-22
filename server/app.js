@@ -16,7 +16,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
-// app.use(cookieParser);
+app.use(cookieParser);
+app.use(Auth.createSession);
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -74,16 +75,14 @@ app.post('/links', (req, res, next) => {
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
-// GET /login
-
 app.get('/login', (req, res) => {
   res.render('login');
 });
-// GET /signup
+
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
-// POST /login
+
 app.post('/login', (req, res) => {
   let options = { username: req.body.username };
   models.Users.get(options)
@@ -108,7 +107,7 @@ app.post('/login', (req, res) => {
       res.redirect('/login');
     });
 });
-// POST /signup
+
 app.post('/signup', (req, res) => {
   models.Users.create({
     username: req.body.username,

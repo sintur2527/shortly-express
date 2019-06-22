@@ -13,12 +13,11 @@ const addCookie = (req, res, next) => {
       next();
     })
     .catch(err => {
-      // console.error(err);
       next();
     });
 };
 
-const setCookie = (req, res, next) => {
+const setCookie = (result, req, res, next) => {
   req.session = {
     hash: result.hash,
     userId: result.userId,
@@ -29,19 +28,18 @@ const setCookie = (req, res, next) => {
       if (user === undefined) {
         next();
       } else {
+        console.log(user);
         req.session.user.username = user.username;
         next();
       }
     })
     .catch(err => {
-      // console.error(err);
+      console.error(error);
       next();
     });
 };
 
 module.exports.createSession = (req, res, next) => {
-  // Checking if req.cookies has any cookies
-  // if it has no cookies
   if (Object.keys(req.cookies).length === 0) {
     addCookie(req, res, next);
   } else {
@@ -50,7 +48,7 @@ module.exports.createSession = (req, res, next) => {
         req.cookie = {};
         addCookie(req, res, next);
       } else {
-        setCookie(req, res, next);
+        setCookie(result, req, res, next);
       }
     });
   }
@@ -68,8 +66,3 @@ exports.checkUser = (req, res, next) => {
   }
   next();
 };
-
-// exports.userExists = (req, res, next) => {
-
-//   next();
-// };

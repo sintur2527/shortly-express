@@ -1,5 +1,6 @@
 const parseCookies = (req, res, next) => {
   if (req.headers.cookie !== undefined) {
+    req.cookies = {};
     var reqCookie = req.headers.cookie;
     let semicolon = reqCookie.split('; ');
     let cookie = [];
@@ -10,9 +11,9 @@ const parseCookies = (req, res, next) => {
     for (let j = 0; j < cookie.length; j++) {
       req.cookies[cookie[j][0]] = cookie[j][1];
     }
+  } else {
+    req.cookies = {};
   }
-
-  res.send(req.cookies);
   next();
 };
 
